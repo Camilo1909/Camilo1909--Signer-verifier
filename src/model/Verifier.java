@@ -6,7 +6,6 @@ import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
 import java.security.SignatureException;
-
 import javax.crypto.NoSuchPaddingException;
 
 public class Verifier {
@@ -38,9 +37,9 @@ public class Verifier {
 		    }
 
 		  if (verify) {
-		    System.out.println("\nFirma verificada.");
+		    System.out.println("Siganture verificada.");
 		  } else {
-		    System.out.println("\nFirma incorrecta.");
+		    System.out.println("Siganture incorrect.");
 		  }
 	  }
 

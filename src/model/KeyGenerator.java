@@ -23,14 +23,14 @@ public class KeyGenerator {
 		  // uno para la publica y otro para la privada (encriptada por password)
 		  public void createKeys() throws Exception {
 		    // Crear la clave RSA
-		    System.out.println("Generando el par de claves RSA.");
+		    System.out.println("Genrating the pair of keys RSA.");
 		    KeyPairGenerator generatorRSA = KeyPairGenerator.getInstance("RSA");
 		    generatorRSA.initialize(1024);
 		    keys = generatorRSA.genKeyPair();
 		    // Toma la forma codificada de la clave publica para usarla en el futuro. 
 		    byte[] bytesPublic = keys.getPublic().getEncoded();
 		    // Lee el nombre del archivo para la clave publica
-		    System.out.print("Nombre del archivo para grabar la clave publica:\n");
+		    System.out.print("Name of the file to save the public key:\n");
 		    BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
 		    String filePublic = input.readLine();
 		    // Escribir la clave publica codificada en su fichero
@@ -38,14 +38,14 @@ public class KeyGenerator {
 		    output.write(bytesPublic);
 		    output.close();
 		    // Repetimos lo mismo para la clave privada, encriptandola con un password.
-		    System.out.print("Nombre del archivo para grabar la clave privada:\n");
+		    System.out.print("Name of the file to save the private key:\n");
 		    String filePrivate = input.readLine();
 		    //Guardamos la ruta de la clave privada para usarla posteriormente
 		    path = "C:/Users/kmilo/OneDrive/Documentos/8-Semestre/Seguridad/Proyecto final/Signer-verifier/" + filePrivate + "";
 		    // Tomamos la forma codificada. 
 		    byte[] bytesPrivate = keys.getPrivate().getEncoded();
 		    // Solicitar el password para encriptar la clave privada
-		    System.out.print("Password para encriptar la clave privada:\n");
+		    System.out.print("Password to encrypy the private key:\n");
 		    String password = input.readLine();
 		    // Aqui encriptamos la clave privada
 		    byte[] bytesPrivateEncrypt =

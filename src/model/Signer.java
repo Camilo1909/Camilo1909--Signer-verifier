@@ -25,7 +25,7 @@ import javax.crypto.spec.PBEParameterSpec;
 public class Signer {
 	
 	private static final int ITERACIONES = 1000;
-	private String path;
+	private String rute;
 	private KeyPair keys;
 	private InputStream fis;
 	private FileInputStream privateK;
@@ -33,13 +33,13 @@ public class Signer {
 	private byte[] bytesSignature; 
 	private byte[] file;
 	
-	public Signer(String path, KeyPair keys) {
-		this.path = path;
+	public Signer(String rute, KeyPair keys) {
+		this.rute = rute;
 		this.keys = keys;
 	}
 	
 	// Utilidad para desencriptar la clave privada con un password.El salto son los 8 primeros bytes del array que se pasa como texto cifrado.
-	  private static byte[] desencriptarPrivateKey(char[] password, byte[] textEncrypt) throws Exception {
+	  private static byte[] decryptPrivateKey(char[] password, byte[] textEncrypt) throws Exception {
 	    // Leer el salto.
 	    byte[] jump = new byte[8];
 	    ByteArrayInputStream bais = new ByteArrayInputStream(textEncrypt);
@@ -57,7 +57,7 @@ public class Signer {
 	    encryptor.init(Cipher.DECRYPT_MODE, key, parameters);
 	    return encryptor.doFinal(remainigText);
 	  }
-	  //M�todo para firmar cualquier archivo.
+	  //Metodo para firmar cualquier archivo.
 	  public void SignFile() throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException {
 		  BufferedReader br = new BufferedReader(new InputStreamReader(System.in)); //Ya tenemos el "lector"
 		  System.out.println("Por favor ingrese la ruta del archivo que desea firmar:");//Se pide la ruta del archivo que se desea firmar al usuario
@@ -71,7 +71,7 @@ public class Signer {
 	      System.out.print("Password para la clave privada:\n");
 	      //Se lee la clave ingresada por el usuario
 	        String password = br.readLine();
-	        File pri = new File(path);
+	        File pri = new File(rute);
 	        //Se guarda la clave 
 	        privateK = new FileInputStream(pri);
 	        ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -84,7 +84,7 @@ public class Signer {
 	        // Aplicar PBE para obtener la clave
 	        try {
 	        	//Se intenta desencriptar el archivo con la clave dada por el usuario
-				bytesClave = desencriptarPrivateKey(password.toCharArray(), bytesClave);
+				bytesClave = decryptPrivateKey(password.toCharArray(), bytesClave);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				//Si la clave dada por el usuario es incorrecta, se solicita nuevamente
@@ -104,7 +104,7 @@ public class Signer {
 	        //Guarda el archivo firmado llam�ndolo "SignedFile"
 	        ObjectOutputStream oos1 = new ObjectOutputStream(new FileOutputStream("SignedFile"));
 	        oos1.writeObject(file);  
-	        System.out.println("Archivo firmado");
+	        System.out.println("File signed");
 	        oos1.close();
 	        br.close();
 	  }
